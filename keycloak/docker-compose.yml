@@ -9,12 +9,19 @@ services:
     #command: ["start-dev"]
     command: ["start"]
     environment:
+      KC_HEALTH_ENABLED: true
       KC_DB: postgres
       KC_DB_URL: ${KC_DB_URL:-jdbc:postgresql://postgres:5432/keycloak}
       KC_DB_USERNAME: ${KC_DB_USERNAME:-postgres}
       KC_DB_PASSWORD: ${KC_DB_PASSWORD:-postgres}
       KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN:-keycloak}
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-keycloak}
+    healthcheck:
+      test: curl --fail --silent http://localhost:8080/health || exit 1
+      interval: 30s
+      retries: 3
+      start_period: 60s
+      timeout: 3s
     networks:
       - keycloak
       - mail
