@@ -25,7 +25,7 @@ This repository can be used for local development and root of all projects which
    ```
    or [Docker Compose](https://docs.docker.com/compose) (ad 4. with `-f docker-compose.override.yml`)
    ```shell
-   $ docker-compose up -d
+   $ docker compose up -d
    ```
 8. Go to [https://traefik.loc](https://traefik.loc) (or yours domain which you set in `.env` file).
 9. When you will develop new project:
@@ -35,7 +35,7 @@ This repository can be used for local development and root of all projects which
       $ mkcert -cert-file certs/cert.pem -key-file certs/key.pem "traefik.loc" "other.domain" "another.domain"
       ```
    4. add domains into your `hosts` file,
-   5. config domains at docker-compose services in your project with labels (add projects to network `traefik`).
+   5. config domains at docker compose services in your project with labels (add projects to network `traefik`).
 
 ## Use with Taskfile
 

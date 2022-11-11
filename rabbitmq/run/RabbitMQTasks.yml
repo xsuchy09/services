@@ -6,10 +6,10 @@ tasks:
     # Docker
     sh:
         cmds:
-            - docker-compose $DOCKER_COMPOSE_FILE exec rabbitmq /bin/sh
+            - docker compose $DOCKER_COMPOSE_FILE exec rabbitmq /bin/sh
     docker-logs:
         cmds:
-            - docker-compose $DOCKER_COMPOSE_FILE logs rabbitmq
+            - docker compose $DOCKER_COMPOSE_FILE logs rabbitmq
     docker-log-20:
         cmds:
-            - docker-compose $DOCKER_COMPOSE_FILE logs --tail ${1:-20} rabbitmq
+            - docker compose $DOCKER_COMPOSE_FILE logs --tail ${1:-20} rabbitmq

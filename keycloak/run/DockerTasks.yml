@@ -5,13 +5,13 @@ version: '3'
 tasks:
     config:
         cmds:
-            - docker-compose {{.COMPOSE_FILE}} config
+            - docker compose {{.COMPOSE_FILE}} config
     build:
         cmds:
-            - docker-compose {{.BUILD_FILE}} build --pull
+            - docker compose {{.BUILD_FILE}} build --pull
     pull:
         cmds:
-            - docker-compose {{.COMPOSE_FILE}} pull
+            - docker compose {{.COMPOSE_FILE}} pull
     tag:
         cmds:
             - docker tag {{.IMAGE}}:{{.TAG}} {{.NEW_IMAGE}}:{{.NEW_TAG}}
@@ -29,17 +29,17 @@ tasks:
             - task: push-image
     up:
         cmds:
-            - docker-compose {{.COMPOSE_FILE}} up -d
+            - docker compose {{.COMPOSE_FILE}} up -d
     up-debug:
         cmds:
-            - docker-compose {{.COMPOSE_FILE}} up
+            - docker compose {{.COMPOSE_FILE}} up
     up-force:
         cmds:
             - task: pull
             - task: up
     down:
         cmds:
-            - docker-compose {{.COMPOSE_FILE}} down
+            - docker compose {{.COMPOSE_FILE}} down
     restart:
         cmds:
             - task: down
@@ -51,13 +51,13 @@ tasks:
             - task: up
     ps:
         cmds:
-            - docker-compose {{.COMPOSE_FILE}} ps
+            - docker compose {{.COMPOSE_FILE}} ps
     logs:
         cmds:
-            - docker-compose {{.COMPOSE_FILE}} logs --timestamps
+            - docker compose {{.COMPOSE_FILE}} logs --timestamps
     logs-10:
         cmds:
-            - docker-compose {{.COMPOSE_FILE}} logs --tail ${1:-10} --timestamps
+            - docker compose {{.COMPOSE_FILE}} logs --tail ${1:-10} --timestamps
     logs-20:
         cmds:
-            - docker-compose {{.COMPOSE_FILE}} logs --tail ${1:-20} --timestamps
+            - docker compose {{.COMPOSE_FILE}} logs --tail ${1:-20} --timestamps
