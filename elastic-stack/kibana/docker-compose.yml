@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  kibana:
+    image: docker.elastic.co/kibana/kibana:${STACK_VERSION:-8.4.3}
+    container_name: elastic-stack-kibana
+    restart: unless-stopped
+    environment:
+      SERVER_NAME: ${KIBANA_SERVER_NAME:-kibana}
+      SERVER_PUBLICBASEURL: ${KIBANA_SERVER_PUBLICBASEURL:-https://localhost:5601}
+      ELASTICSEARCH_HOSTS: ${KIBANA_ELASTICSEARCH_HOSTS:-http://elasticsearch:9200}
+      ELASTICSEARCH_USERNAME: ${KIBANA_ELASTICSEARCH_USERNAME:-kibana_system}
+      ELASTICSEARCH_PASSWORD: ${KIBANA_ELASTICSEARCH_PASSWORD}
+    volumes:
+      - elastic-stack-kibana-data:/usr/share/kibana/data
+    labels:
+      - "traefik.enable=true"
+    networks:
+      - elasticsearch
+      - traefik
+
+volumes:
+  elastic-stack-kibana-data:
+    driver: local
+
+networks:
+  elasticsearch:
+    external: true
+    name: ${ELASTICSEARCH_DOCKER_NETWORK:-elasticsearch}
+  traefik:
+    external: true
+    name: ${TRAEFIK_DOCKER_NETWORK:-traefik}

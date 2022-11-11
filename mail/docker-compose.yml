@@ -1,0 +1,16 @@
+version: '3.8'
+
+# docker network create mail
+
+services:
+  mail:
+    image: bytemark/smtp:latest
+    container_name: mail
+    restart: unless-stopped
+    networks:
+      - mail
+
+networks:
+  mail:
+    external: true
+    name: ${MAIL_DOCKER_NETWORK:-mail}

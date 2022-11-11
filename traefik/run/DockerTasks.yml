@@ -1,0 +1,75 @@
+# https://taskfile.dev
+
+version: '3'
+
+tasks:
+    config:
+        cmds:
+            - docker compose {{.COMPOSE_FILE}} config
+    build:
+        cmds:
+            - docker compose {{.BUILD_FILE}} build --pull
+        preconditions:
+            - sh: test -f .task-env
+              msg: 'Task ENV file ".task-env" does not exists.'
+    pull:
+        cmds:
+            - docker compose {{.COMPOSE_FILE}} pull
+    tag:
+        cmds:
+            - docker tag {{.IMAGE}}:{{.TAG}} {{.NEW_IMAGE}}:{{.NEW_TAG}}
+    push:
+        cmds:
+            - docker push {{.IMAGE}}:{{.TAG}}
+    push-image:
+        cmds:
+            - docker tag {{.IMAGE}}:latest {{.REGISTRY}}/{{.IMAGE}}:{{.TAG}}
+            - docker push {{.REGISTRY}}/{{.IMAGE}}:{{.TAG}}
+    do-release:
+        # task docker:do-release "REGISTRY=example.cz" "IMAGE=my-app" "TAG=latest"
+        cmds:
+            - task: build
+            - task: push-image
+        preconditions:
+            - sh: test -f .task-env
+              msg: 'Task ENV file ".task-env" does not exists.'
+    up:
+        cmds:
+            - docker compose {{.COMPOSE_FILE}} up -d
+        preconditions:
+            - sh: test -f .env
+              msg: 'App ENV file ".env" does not exists.'
+    up-debug:
+        cmds:
+            - docker compose {{.COMPOSE_FILE}} up
+        preconditions:
+            - sh: test -f .env
+              msg: 'App ENV file ".env" does not exists.'
+    up-force:
+        cmds:
+            - task: pull
+            - task: up
+    down:
+        cmds:
+            - docker compose {{.COMPOSE_FILE}} down
+    restart:
+        cmds:
+            - task: down
+            - task: up
+    update:
+        cmds:
+            - task: pull
+            - task: down
+            - task: up
+    ps:
+        cmds:
+            - docker compose {{.COMPOSE_FILE}} ps
+    logs:
+        cmds:
+            - docker compose {{.COMPOSE_FILE}} logs --timestamps
+    logs-10:
+        cmds:
+            - docker compose {{.COMPOSE_FILE}} logs --tail ${1:-10} --timestamps
+    logs-20:
+        cmds:
+            - docker compose {{.COMPOSE_FILE}} logs --tail ${1:-20} --timestamps

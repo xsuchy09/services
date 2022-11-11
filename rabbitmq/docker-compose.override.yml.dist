@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.rabbitmq.loadbalancer.server.port=15672"
+      - "traefik.http.routers.rabbitmq.rule=Host(`rabbitmq.loc`)"
+      - "traefik.http.routers.rabbitmq.entrypoints=websecure"
+      - "traefik.http.routers.rabbitmq.tls=true"
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external: true

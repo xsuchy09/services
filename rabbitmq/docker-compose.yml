@@ -1,0 +1,33 @@
+version: '3.8'
+
+# if you want to run app with symfony server comment app and nginx part
+
+services:
+  # RABBITMQ
+  rabbitmq:
+    image: rabbitmq:3.11-management
+    container_name: rabbitmq
+    hostname: localhost
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USERNAME:-rabbitmq}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-rabbitmq}
+      RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_VHOST:-rabbitmq}
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      retries: 3
+      start_period: 20s
+      timeout: 3s
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    networks:
+      - rabbitmq
+
+volumes:
+  rabbitmq-data:
+    name: rabbitmq-data
+
+networks:
+  rabbitmq:
+    external: true

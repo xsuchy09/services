@@ -1,0 +1,18 @@
+###> docker ###
+/.env
+/docker-compose.override.yml
+###< docker ###
+
+###> taskfile ###
+/.task-env
+###< taskfile ###
+
+###> config ###
+!/config
+/config/*
+!config/.gitkeep
+###< config ###
+
+###> volumes ###
+/var/
+###< volumes ###

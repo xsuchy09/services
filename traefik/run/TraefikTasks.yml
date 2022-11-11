@@ -1,0 +1,21 @@
+# https://taskfile.dev
+
+version: '3'
+
+tasks:
+    # Docker
+    sh:
+        cmds:
+            - docker compose {{.COMPOSE_FILE}} exec traefik /bin/sh
+    docker-restart:
+        cmds:
+            - docker compose {{.COMPOSE_FILE}} restart traefik
+    docker-logs:
+        cmds:
+            - docker compose {{.COMPOSE_FILE}} logs --timestamps traefik
+    docker-logs-10:
+        cmds:
+            - docker compose {{.COMPOSE_FILE}} logs --tail ${1:-10} --timestamps traefik
+    docker-logs-20:
+        cmds:
+            - docker compose {{.COMPOSE_FILE}} logs --tail ${1:-20} --timestamps traefik

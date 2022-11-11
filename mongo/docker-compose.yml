@@ -1,0 +1,25 @@
+version: '3.8'
+
+# docker network create mongo
+
+services:
+  mongo:
+    image: mongo:6
+    container_name: mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME:-mongo}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:-mongo}
+    volumes:
+      - mongo:/data/db
+    networks:
+      - mongo
+
+volumes:
+  mongo:
+    driver: local
+
+networks:
+  mongo:
+    external: true
+    name: ${MONGO_DOCKER_NETWORK:-mongo}

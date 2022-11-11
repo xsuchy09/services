@@ -1,0 +1,8 @@
+version: '3.8'
+
+services:
+  kibana:
+    labels:
+      - "traefik.http.routers.kibana.rule=Host(`kibana.loc`)"
+      - "traefik.http.routers.kibana.entrypoints=websecure"
+      - "traefik.http.routers.kibana.tls=true"

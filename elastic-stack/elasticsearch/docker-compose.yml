@@ -1,0 +1,44 @@
+version: '3.8'
+
+# https://www.elastic.co/guide/en/elasticsearch/reference/8.2/docker.html
+
+# set password for kibana_system user (KIBANA_PASSWORD looks like not working):
+# curl -X POST -u elastic:elastic -H "Content-Type: application/json" http://localhost:9200/_security/user/kibana_system/_password -d "{\"password\":\"kibana\"}"
+
+services:
+  elasticsearch:
+    #image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION:-8.4.3}
+    build: .
+    container_name: elastic-stack-elasticsearch01
+    restart: unless-stopped
+    environment:
+      #- node.name=elasticsearch01
+      #- cluster.initial_master_nodes=elasticsearch01
+      - cluster.name=${ELASTICSEARCH_CLUSTER_NAME:-elastic-stack-elasticsearch-cluster}
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - ingest.geoip.downloader.enabled=false
+      - xpack.security.enabled=true
+      - discovery.type=single-node
+      - ELASTIC_PASSWORD=${ELASTICSEARCH_PASSWORD}
+      - KIBANA_PASSWORD=${KIBANA_PASSWORD}
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - elastic-stack-elasticsearch01-data:/usr/share/elasticsearch/data
+      # - ./elastic-backup:/usr/share/elasticsearch/backup
+      #- ./elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    #ports:
+    #  - 9200:9200
+    networks:
+      - elasticsearch
+
+volumes:
+  elastic-stack-elasticsearch01-data:
+
+networks:
+  elasticsearch:
+    external: true
+    name: ${ELASTICSEARCH_DOCKER_NETWORK:-elasticsearch}

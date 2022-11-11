@@ -1,0 +1,1 @@
+DOCKER_COMPOSE_FILE=-f docker-compose.yml
