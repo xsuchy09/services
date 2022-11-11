@@ -7,7 +7,7 @@ version: '3.8'
 
 services:
   elasticsearch:
-    #image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION:-8.4.3}
+    #image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION:-8.5.0}
     build: .
     container_name: elastic-stack-elasticsearch01
     restart: unless-stopped
@@ -26,6 +26,12 @@ services:
       memlock:
         soft: -1
         hard: -1
+    healthcheck:
+      test: curl --fail --silent --user elastic:${ELASTICSEARCH_PASSWORD} http://localhost:9200 || exit 1
+      interval: 30s
+      retries: 3
+      start_period: 30s
+      timeout: 3s
     volumes:
       - elastic-stack-elasticsearch01-data:/usr/share/elasticsearch/data
       # - ./elastic-backup:/usr/share/elasticsearch/backup

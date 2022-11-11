@@ -1,0 +1,15 @@
+# https://taskfile.dev
+
+version: '3'
+
+tasks:
+    # Docker
+    sh:
+        cmds:
+            - docker compose $DOCKER_COMPOSE_FILE exec elasticsearch /bin/sh
+    docker-logs:
+        cmds:
+            - docker compose $DOCKER_COMPOSE_FILE logs elasticsearch
+    docker-log-20:
+        cmds:
+            - docker compose $DOCKER_COMPOSE_FILE logs --tail ${1:-20} elasticsearch

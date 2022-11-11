@@ -9,5 +9,6 @@ vars:
 
 includes:
     docker: ./run/DockerTasks.yml
+    elastic: ./run/ElasticsearchTasks.yml
 
 tasks:

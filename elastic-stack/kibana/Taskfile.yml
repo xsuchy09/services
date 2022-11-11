@@ -9,5 +9,6 @@ vars:
 
 includes:
     docker: ./run/DockerTasks.yml
+    kibana: ./run/KibanaTasks.yml
 
 tasks:
