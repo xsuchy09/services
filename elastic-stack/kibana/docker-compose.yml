@@ -15,7 +15,7 @@ services:
       test: curl --fail --silent http://localhost:5601 || exit 1
       interval: 30s
       retries: 3
-      start_period: 20s
+      start_period: 30s
       timeout: 3s
     volumes:
       - elastic-stack-kibana-data:/usr/share/kibana/data

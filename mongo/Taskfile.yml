@@ -9,5 +9,6 @@ vars:
 
 includes:
     docker: ./run/DockerTasks.yml
+    mongo: ./run/MongoDBTasks.yml
 
 tasks:

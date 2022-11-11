@@ -10,6 +10,12 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME:-mongo}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:-mongo}
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh mongo:27017/admin --quiet
+      interval: 30s
+      retries: 3
+      start_period: 30s
+      timeout: 5s
     volumes:
       - mongo:/data/db
     networks:
