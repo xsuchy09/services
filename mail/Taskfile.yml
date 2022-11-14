@@ -9,5 +9,6 @@ vars:
 
 includes:
     docker: ./run/DockerTasks.yml
+    mail: ./run/MailTasks.yml
 
 tasks:
