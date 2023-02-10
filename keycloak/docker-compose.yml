@@ -4,18 +4,45 @@ version: '3.8'
 
 services:
   keycloak:
-    image: quay.io/keycloak/keycloak:latest
+    #image: quay.io/keycloak/keycloak:latest
+    build:
+      context: .
+      args:
+        KC_HEALTH_ENABLED: ${KC_HEALTH_ENABLED-true}
+        KC_DB: ${KC_DB:-postgres}
+        KC_DB_URL: ${KC_DB_URL:-jdbc:postgresql://postgres:5432/keycloak}
+        KC_DB_USERNAME: ${KC_DB_USERNAME:-postgres}
+        KC_DB_PASSWORD: ${KC_DB_PASSWORD:-postgres}
+        KC_HOSTNAME: ${KEYCLOAK_HOSTNAME:-keycloak.loc}
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    container_name: keycloak
     restart: unless-stopped
     #command: ["start-dev"]
-    command: ["start"]
+    command: ["start", "--optimized"]
     environment:
-      KC_HEALTH_ENABLED: true
-      KC_DB: postgres
+      KC_HEALTH_ENABLED: ${KC_HEALTH_ENABLED-true}
+      KC_DB: ${KC_DB:-postgres}
       KC_DB_URL: ${KC_DB_URL:-jdbc:postgresql://postgres:5432/keycloak}
       KC_DB_USERNAME: ${KC_DB_USERNAME:-postgres}
       KC_DB_PASSWORD: ${KC_DB_PASSWORD:-postgres}
       KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN:-keycloak}
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-keycloak}
+      PROXY_ADDRESS_FORWARDING: ${PROXY_ADDRESS_FORWARDING:-true}
+      KEYCLOAK_HOSTNAME: ${KEYCLOAK_HOSTNAME:-keycloak.loc}
+      KC_HOSTNAME: ${KEYCLOAK_HOSTNAME:-keycloak.loc}
+      KC_HOSTNAME_STRICT_HTTPS: ${KC_HOSTNAME_STRICT_HTTPS:-true}
+      KC_PROXY: ${KC_PROXY:-edge}
+      KEYCLOAK_FRONTEND_URL: ${KEYCLOAK_FRONTEND_URL:-https://keycloak.loc}
+      # RabbitMQ
+      KK_TO_RMQ_URL: ${KK_TO_RMQ_URL:-rabbitmq}
+      KK_TO_RMQ_PORT: ${KK_TO_RMQ_PORT:-5672}
+      KK_TO_RMQ_VHOST: ${KK_TO_RMQ_VHOST:-keycloak}
+      KK_TO_RMQ_EXCHANGE: ${KK_TO_RMQ_EXCHANGE:-keycloak}
+      KK_TO_RMQ_USERNAME: ${KK_TO_RMQ_USERNAME:-rabbitmq}
+      KK_TO_RMQ_PASSWORD: ${KK_TO_RMQ_PASSWORD:-rabbitmq}
+      KK_TO_RMQ_USE_TLS: ${KK_TO_RMQ_USE_TLS:-false}
     healthcheck:
       test: curl --fail --silent http://localhost:8080/health || exit 1
       interval: 30s
