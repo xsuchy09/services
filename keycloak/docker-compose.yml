@@ -20,7 +20,9 @@ services:
     container_name: keycloak
     restart: unless-stopped
     #command: ["start-dev"]
-    command: ["start", "--optimized"]
+    command: 
+      - "start"
+      - "--optimized"
     environment:
       KC_HEALTH_ENABLED: ${KC_HEALTH_ENABLED-true}
       KC_DB: ${KC_DB:-postgres}

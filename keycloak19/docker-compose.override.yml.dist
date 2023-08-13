@@ -1,0 +1,41 @@
+version: '3.8'
+
+# @see https://www.keycloak.org/getting-started/getting-started-docker
+
+services:
+  keycloak19:
+    environment:
+      PROXY_ADDRESS_FORWARDING: "true"
+      KEYCLOAK_HOSTNAME: keycloak.loc
+      KC_HOSTNAME=${KEYCLOAK_HOSTNAME:-keycloak.loc}:
+      KC_HOSTNAME_STRICT_HTTPS: "true"
+      #KC_HOSTNAME_STRICT_HTTPS: "false"
+      KC_PROXY: edge
+      KEYCLOAK_FRONTEND_URL: https://keycloak19.loc
+      # RabbitMQ
+      KK_TO_RMQ_URL: ${KK_TO_RMQ_URL:-rabbitmq}
+      KK_TO_RMQ_PORT: ${KK_TO_RMQ_PORT:-5672}
+      KK_TO_RMQ_VHOST: ${KK_TO_RMQ_VHOST:-keycloak}
+      KK_TO_RMQ_EXCHANGE: ${KK_TO_RMQ_EXCHANGE:-keycloak}
+      KK_TO_RMQ_USERNAME: ${KK_TO_RMQ_USERNAME:-rabbitmq}
+      KK_TO_RMQ_PASSWORD: ${KK_TO_RMQ_PASSWORD:-rabbitmq}
+      KK_TO_RMQ_USE_TLS: ${KK_TO_RMQ_USE_TLS:-false}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.keycloak19.loadbalancer.server.port=8080"
+      - "traefik.http.routers.keycloak19.rule=Host(`keycloak19.loc`)"
+      - "traefik.http.routers.keycloak19.entrypoints=websecure"
+      - "traefik.http.routers.keycloak19.tls=true"
+#    ports:
+#      - 8888:8080
+    volumes:
+      - ./docker/keycloak/providers:/opt/keycloak/providers
+    networks:
+      - rabbitmq
+      - traefik
+
+networks:
+  rabbitmq:
+    external: true
+  traefik:
+    external: true

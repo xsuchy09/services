@@ -5,7 +5,7 @@ version: '3.8'
 services:
   # RABBITMQ
   rabbitmq:
-    image: rabbitmq:3.11-management
+    image: rabbitmq:3.12-management
     container_name: rabbitmq
     hostname: localhost
     restart: unless-stopped
