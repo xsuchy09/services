@@ -11,6 +11,7 @@ services:
         KC_HEALTH_ENABLED: ${KC_HEALTH_ENABLED-true}
         KC_DB: ${KC_DB:-postgres}
         KC_DB_URL: ${KC_DB_URL:-jdbc:postgresql://postgres:5432/keycloak}
+        # bug https://github.com/keycloak/keycloak/issues/25010
         KC_DB_USERNAME: ${KC_DB_USERNAME:-postgres}
         KC_DB_PASSWORD: ${KC_DB_PASSWORD:-postgres}
         KC_HOSTNAME: ${KEYCLOAK_HOSTNAME:-keycloak.loc}
@@ -27,6 +28,7 @@ services:
       KC_HEALTH_ENABLED: ${KC_HEALTH_ENABLED-true}
       KC_DB: ${KC_DB:-postgres}
       KC_DB_URL: ${KC_DB_URL:-jdbc:postgresql://postgres:5432/keycloak}
+      # bug https://github.com/keycloak/keycloak/issues/25010
       KC_DB_USERNAME: ${KC_DB_USERNAME:-postgres}
       KC_DB_PASSWORD: ${KC_DB_PASSWORD:-postgres}
       KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN:-keycloak}
