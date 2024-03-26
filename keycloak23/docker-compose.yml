@@ -1,0 +1,65 @@
+# @see https://www.keycloak.org/getting-started/getting-started-docker
+
+services:
+  keycloak23:
+    #image: quay.io/keycloak/keycloak:23.0
+    build:
+      context: .
+      args:
+        KC_HEALTH_ENABLED: ${KC_HEALTH_ENABLED-true}
+        KC_DB: ${KC_DB:-postgres}
+        KC_DB_URL: ${KC_DB_URL:-jdbc:postgresql://postgres:5432/keycloak23}
+        # bug https://github.com/keycloak/keycloak/issues/25010
+        KC_DB_USERNAME: ${KC_DB_USERNAME:-postgres}
+        KC_DB_PASSWORD: ${KC_DB_PASSWORD:-postgres}
+        KC_HOSTNAME: ${KEYCLOAK_HOSTNAME:-keycloak23.loc}
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    container_name: keycloak23
+    restart: unless-stopped
+    #command: ["start-dev"]
+    command: 
+      - "start"
+      - "--optimized"
+    environment:
+      KC_HEALTH_ENABLED: ${KC_HEALTH_ENABLED-true}
+      KC_DB: ${KC_DB:-postgres}
+      KC_DB_URL: ${KC_DB_URL:-jdbc:postgresql://postgres:5432/keycloak23}
+      # bug https://github.com/keycloak/keycloak/issues/25010
+      KC_DB_USERNAME: ${KC_DB_USERNAME:-postgres}
+      KC_DB_PASSWORD: ${KC_DB_PASSWORD:-postgres}
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN:-keycloak}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-keycloak}
+      PROXY_ADDRESS_FORWARDING: ${PROXY_ADDRESS_FORWARDING:-true}
+      KEYCLOAK_HOSTNAME: ${KEYCLOAK_HOSTNAME:-keycloak23.loc}
+      KC_HOSTNAME: ${KEYCLOAK_HOSTNAME:-keycloak23.loc}
+      KC_HOSTNAME_STRICT_HTTPS: ${KC_HOSTNAME_STRICT_HTTPS:-true}
+      KC_PROXY: ${KC_PROXY:-edge}
+      KEYCLOAK_FRONTEND_URL: ${KEYCLOAK_FRONTEND_URL:-https://keycloak23.loc}
+      # RabbitMQ
+      KK_TO_RMQ_URL: ${KK_TO_RMQ_URL:-rabbitmq}
+      KK_TO_RMQ_PORT: ${KK_TO_RMQ_PORT:-5672}
+      KK_TO_RMQ_VHOST: ${KK_TO_RMQ_VHOST:-keycloak23}
+      KK_TO_RMQ_EXCHANGE: ${KK_TO_RMQ_EXCHANGE:-keycloak}
+      KK_TO_RMQ_USERNAME: ${KK_TO_RMQ_USERNAME:-rabbitmq}
+      KK_TO_RMQ_PASSWORD: ${KK_TO_RMQ_PASSWORD:-rabbitmq}
+      KK_TO_RMQ_USE_TLS: ${KK_TO_RMQ_USE_TLS:-false}
+    healthcheck:
+      test: curl --fail --silent http://localhost:8080/health || exit 1
+      interval: 30s
+      retries: 3
+      start_period: 60s
+      timeout: 3s
+    networks:
+      - keycloak23
+      - mail
+      - postgres
+
+networks:
+  keycloak23:
+    external: true
+  mail:
+    external: true
+  postgres:
+    external: true

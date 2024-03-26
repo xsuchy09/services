@@ -1,5 +1,3 @@
-version: '3.8'
-
 # docker network create mail
 
 services:

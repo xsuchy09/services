@@ -1,10 +1,8 @@
-version: '3.8'
-
 # docker network create traefik
 
 services:
   traefik:
-    image: traefik:v2.10
+    image: traefik:v2.11
     container_name: traefik
     restart: unless-stopped
     command:

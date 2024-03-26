@@ -1,11 +1,9 @@
-version: '3.8'
-
 # if you want to run app with symfony server comment app and nginx part
 
 services:
   # RABBITMQ
   rabbitmq:
-    image: rabbitmq:3.12-management
+    image: rabbitmq:3.13-management
     container_name: rabbitmq
     hostname: localhost
     restart: unless-stopped

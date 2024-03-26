@@ -1,17 +1,15 @@
-version: '3.8'
-
 # @see https://www.keycloak.org/getting-started/getting-started-docker
 
 services:
   keycloak:
     environment:
-      PROXY_ADDRESS_FORWARDING: "true"
-      KEYCLOAK_HOSTNAME: keycloak.loc
+      KC_HOSTNAME: ${KEYCLOAK_HOSTNAME:-keycloak.loc}
+      KC_HOSTNAME_STRICT: ${KC_HOSTNAME_STRICT:-true}
       KC_HOSTNAME=${KEYCLOAK_HOSTNAME:-keycloak.loc}:
       KC_HOSTNAME_STRICT_HTTPS: "true"
       #KC_HOSTNAME_STRICT_HTTPS: "false"
-      KC_PROXY: edge
-      KEYCLOAK_FRONTEND_URL: https://keycloak.loc
+      KC_HTTP_ENABLED: ${KC_HTTP_ENABLED:-true}
+      KC_PROXY_HEADERS: ${KC_PROXY_HEADERS:-xforwarded}
       # RabbitMQ
       KK_TO_RMQ_URL: ${KK_TO_RMQ_URL:-rabbitmq}
       KK_TO_RMQ_PORT: ${KK_TO_RMQ_PORT:-5672}
