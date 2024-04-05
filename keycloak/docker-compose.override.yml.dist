@@ -10,6 +10,9 @@ services:
       #KC_HOSTNAME_STRICT_HTTPS: "false"
       KC_PROXY_HEADERS: xforwarded
       KEYCLOAK_FRONTEND_URL: https://keycloak.loc
+      # truststore
+      KC_TLS_HOSTNAME_VERIFIER: 'ANY'
+      KC_TRUSTSTORE_PATHS: '/opt/keycloak/certs/'
       # RabbitMQ
       KK_TO_RMQ_URL: ${KK_TO_RMQ_URL:-rabbitmq}
       KK_TO_RMQ_PORT: ${KK_TO_RMQ_PORT:-5672}
@@ -28,6 +31,7 @@ services:
 #      - 8888:8080
     volumes:
       - ./docker/keycloak/providers:/opt/keycloak/providers
+      - ./docker/certs:/opt/keycloak/certs
     networks:
       - rabbitmq
       - traefik

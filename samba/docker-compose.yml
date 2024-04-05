@@ -1,0 +1,31 @@
+services:
+  samba:
+    image: samba
+    build:
+      context: .
+    env_file:
+      - .env
+    container_name: samba
+    restart: unless-stopped
+    privileged: true
+    ports:
+      - 636:636
+    healthcheck:
+      test: smbstatus
+      interval: 30s
+      retries: 3
+      start_period: 10s
+      timeout: 3s
+    volumes:
+      - ./docker/ad-scripts:/opt/ad-scripts
+      - ./conf/certs:/var/lib/samba/private/tls/
+      - samba-data:/var/lib/samba:rw
+    networks:
+      - samba
+
+volumes:
+  samba-data:
+
+networks:
+  samba:
+    external: true

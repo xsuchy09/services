@@ -1,0 +1,18 @@
+# https://taskfile.dev
+
+version: '3'
+
+tasks:
+    # Docker
+    sh:
+        cmds:
+            - docker compose $DOCKER_COMPOSE_FILE exec samba /bin/sh
+    bash:
+        cmds:
+            - docker compose $DOCKER_COMPOSE_FILE exec samba /bin/bash
+    docker-logs:
+        cmds:
+            - docker compose $DOCKER_COMPOSE_FILE logs samba
+    docker-log-20:
+        cmds:
+            - docker compose $DOCKER_COMPOSE_FILE logs --tail ${1:-20} samba

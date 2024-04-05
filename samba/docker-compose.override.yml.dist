@@ -1,0 +1,4 @@
+services:
+  samba:
+    healthcheck:
+      disable: true
