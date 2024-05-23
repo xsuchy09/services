@@ -5,7 +5,7 @@
 
 services:
   elasticsearch:
-    #image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION:-8.13.2}
+    #image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION:-8.13.4}
     build: .
     container_name: elastic-stack-elasticsearch01
     restart: unless-stopped
