@@ -1,6 +1,6 @@
 services:
   kibana:
-    image: docker.elastic.co/kibana/kibana:${STACK_VERSION:-8.13.4}
+    image: docker.elastic.co/kibana/kibana:${STACK_VERSION:-8.14.3}
     container_name: elastic-stack-kibana
     restart: unless-stopped
     environment:
