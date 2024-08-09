@@ -1,4 +1,4 @@
-FROM docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION:-8.14.3}
+FROM docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION:-8.15.0}
 
 COPY --chown=elasticsearch:elasticsearch elasticsearch.yml /usr/share/elasticsearch/config/
 
@@ -7,4 +7,4 @@ RUN elasticsearch-plugin install analysis-icu
 
 # Install plugins from files
 #COPY plugins /elasticsearch-plugins
-#RUN elasticsearch-plugin install file:/elasticsearch-plugins/analysis-icu-8.14.3.zip
+#RUN elasticsearch-plugin install file:/elasticsearch-plugins/analysis-icu-8.15.0.zip
