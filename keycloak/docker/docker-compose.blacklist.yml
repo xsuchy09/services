@@ -1,0 +1,7 @@
+services:
+  keycloak:
+    labels:
+# zakazano pro MMR VPN - definovano v /adminer/docker-compose.blacklist.yml
+#      - "traefik.http.middlewares.ipblacklist.ipallowlist.sourcerange=127.0.0.1/32,172.16.0.0/12,192.168.10.0/24,192.168.30.0/24,192.168.100.0/24,192.168.120.0/24,93.99.190.65,93.99.190.70,93.99.190.126"
+      - "traefik.http.routers.keycloak.middlewares=ipblacklist"
+

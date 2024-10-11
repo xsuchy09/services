@@ -1,0 +1,19 @@
+# docker network create memcached
+
+services:
+  memcached:
+    image: memcached:1.6-alpine
+    container_name: memcached
+    restart: unless-stopped
+    command:
+      - '-m 8m'
+    healthcheck:
+      test: echo stats | nc 127.0.0.1 11211
+      interval: 10s
+      retries: 60
+    networks:
+      - memcached
+
+networks:
+  memcached:
+    external: true
