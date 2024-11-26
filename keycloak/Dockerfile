@@ -1,4 +1,4 @@
-FROM quay.io/keycloak/keycloak:latest as builder
+FROM quay.io/keycloak/keycloak:latest AS builder
 
 # environments from docker compose
 ARG KC_CACHE
