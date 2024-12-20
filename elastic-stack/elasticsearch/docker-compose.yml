@@ -1,11 +1,11 @@
-# https://www.elastic.co/guide/en/elasticsearch/reference/8.16/docker.html
+# https://www.elastic.co/guide/en/elasticsearch/reference/8.17/docker.html
 
 # set password for kibana_system user (KIBANA_PASSWORD looks like not working):
 # curl -X POST -u elastic:elastic -H "Content-Type: application/json" http://localhost:9200/_security/user/kibana_system/_password -d "{\"password\":\"kibana\"}"
 
 services:
   elasticsearch:
-    #image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION:-8.16.1}
+    #image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION:-8.17.0}
     build: .
     container_name: elastic-stack-elasticsearch01
     restart: unless-stopped
